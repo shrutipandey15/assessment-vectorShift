@@ -6,6 +6,7 @@ import { BaseNode } from './BaseNode';
 
 export const TextNode = ({ id, data }) => {
   const [currText, setCurrText] = useState(data?.text || '{{input}}');
+  const [handles, setHandles] = useState([]);
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -15,6 +16,28 @@ export const TextNode = ({ id, data }) => {
     }
   }, [currText]);
 
+  useEffect(() => {
+    const variableRegex = /{{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}}/g;
+    
+    const matches = [...currText.matchAll(variableRegex)].map(match => match[1]);
+    const uniqueVars = [...new Set(matches)];
+
+    const newHandles = uniqueVars.map((variable, index) => ({
+      type: 'target',
+      position: Position.Left,
+      id: `${id}-${variable}`,
+      style: { top: `${(index + 1) * 20 + 30}px`, background: 'blue' }
+    }));
+
+    newHandles.push({
+      type: 'source',
+      position: Position.Right,
+      id: `${id}-output`
+    });
+
+    setHandles(newHandles);
+  }, [currText, id]);
+
   const handleTextChange = (e) => {
     setCurrText(e.target.value);
   };
@@ -22,13 +45,7 @@ export const TextNode = ({ id, data }) => {
   return (
     <BaseNode
       label="Text"
-      handles={[
-        {
-          type: 'source',
-          position: Position.Right,
-          id: `${id}-output`
-        }
-      ]}
+      handles={handles}
     >
       <div className="flex flex-col">
         <label className="text-xs text-gray-500 mb-1">Text:</label>
