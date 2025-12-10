@@ -1,13 +1,26 @@
-import { Handle } from 'reactflow';
+import { memo } from 'react';
+import { Handle, Position } from 'reactflow';
 import { getNodeStyle } from './nodeStyles';
 
-export const BaseNode = ({ label, children, handles = [], className = '' }) => {
+const getHandlePositionStyle = (position) => {
+  const offset = '-6px';
+  switch (position) {
+    case Position.Left: return { left: offset };
+    case Position.Right: return { right: offset };
+    case Position.Top: return { top: offset };
+    case Position.Bottom: return { bottom: offset };
+    default: return { right: offset };
+  }
+};
+
+export const BaseNode = memo(({ label, children, handles = [], className = '' }) => {
   const style = getNodeStyle(label);
 
   return (
     <div className={`
-      w-[200px] rounded-lg border-2 bg-white shadow-md 
+      rounded-lg border-2 bg-white shadow-md 
       transition-all duration-200 hover:shadow-xl hover:ring-1 
+      min-w-[200px] 
       ${style.borderColor} ${style.shadow} ${className}
     `}>
       
@@ -15,7 +28,9 @@ export const BaseNode = ({ label, children, handles = [], className = '' }) => {
         <span className={`${style.iconColor}`}>
           {style.icon}
         </span>
-        <span className={`text-sm font-bold tracking-wide ${style.headerText} uppercase`}>{label}</span>
+        <span className={`text-sm font-bold tracking-wide ${style.headerText} uppercase`}>
+          {label}
+        </span>
       </div>
       
       <div className="p-3 text-slate-600 font-sans text-sm">
@@ -24,7 +39,7 @@ export const BaseNode = ({ label, children, handles = [], className = '' }) => {
       
       {handles.map((handle, index) => (
         <Handle
-          key={index}
+          key={`${handle.id}-${index}`}
           type={handle.type}
           position={handle.position}
           id={handle.id}
@@ -36,10 +51,12 @@ export const BaseNode = ({ label, children, handles = [], className = '' }) => {
           `}
           style={{
             ...handle.style,
-            [handle.position === 'left' ? 'left' : 'right']: '-6px', 
+            ...getHandlePositionStyle(handle.position)
           }}
         />
       ))}
     </div>
   );
-};
+});
+
+BaseNode.displayName = 'BaseNode';

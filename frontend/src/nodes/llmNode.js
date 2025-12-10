@@ -2,7 +2,14 @@
 import { Position } from 'reactflow';
 import { BaseNode } from './BaseNode';
 
+const HANDLE_BASE_OFFSET = 30;
+const HANDLE_SPACING = 20;
+
+const getTopPosition = (index) => 
+    `${HANDLE_BASE_OFFSET + (index + 1) * HANDLE_SPACING}px`;
+
 export const LLMNode = ({ id, data }) => {
+  const promptHandlePosition = getTopPosition(1);
 
   return (
     <BaseNode
@@ -12,18 +19,19 @@ export const LLMNode = ({ id, data }) => {
           type: 'target',
           position: Position.Left,
           id: `${id}-system`,
-          style: { top: `${100/3}%` }
+          style: { top: getTopPosition(0) }
         },
         {
           type: 'target',
           position: Position.Left,
           id: `${id}-prompt`,
-          style: { top: `${200/3}%` }
+          style: { top: promptHandlePosition }
         },
         {
           type: 'source',
           position: Position.Right,
-          id: `${id}-response`
+          id: `${id}-response`,
+          style: { top: promptHandlePosition } 
         }
       ]}
     >

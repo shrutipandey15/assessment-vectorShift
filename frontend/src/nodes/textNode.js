@@ -4,6 +4,9 @@ import { useState, useEffect, useRef } from 'react';
 import { Position } from 'reactflow';
 import { BaseNode } from './BaseNode';
 
+const HANDLE_BASE_OFFSET = 30;
+const HANDLE_SPACING = 20;
+
 export const TextNode = ({ id, data }) => {
   const [currText, setCurrText] = useState(data?.text || '{{input}}');
   const [handles, setHandles] = useState([]);
@@ -17,25 +20,32 @@ export const TextNode = ({ id, data }) => {
   }, [currText]);
 
   useEffect(() => {
-    const variableRegex = /{{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}}/g;
-    
-    const matches = [...currText.matchAll(variableRegex)].map(match => match[1]);
-    const uniqueVars = [...new Set(matches)];
+    const timeoutId = setTimeout(() => {
+      const variableRegex = /{{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}}/g;
+      
+      const matches = [...currText.matchAll(variableRegex)].map(match => match[1]);
+      const uniqueVars = [...new Set(matches)];
 
-    const newHandles = uniqueVars.map((variable, index) => ({
-      type: 'target',
-      position: Position.Left,
-      id: `${id}-${variable}`,
-      style: { top: `${(index + 1) * 20 + 30}px`, background: 'blue' }
-    }));
+      const newHandles = uniqueVars.map((variable, index) => ({
+        type: 'target',
+        position: Position.Left,
+        id: `${id}-${variable}`,
+        style: { 
+          top: `${HANDLE_BASE_OFFSET + (index + 1) * HANDLE_SPACING}px`, 
+          background: 'blue' 
+        }
+      }));
 
-    newHandles.push({
-      type: 'source',
-      position: Position.Right,
-      id: `${id}-output`
-    });
+      newHandles.push({
+        type: 'source',
+        position: Position.Right,
+        id: `${id}-output`
+      });
 
-    setHandles(newHandles);
+      setHandles(newHandles);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
   }, [currText, id]);
 
   const handleTextChange = (e) => {

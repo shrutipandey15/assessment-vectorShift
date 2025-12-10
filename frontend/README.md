@@ -1,70 +1,96 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+# VectorShift Assessment - Pipeline Builder
 
-In the project directory, you can run:
+A builder application consisting of a React-based drag-and-drop frontend and a FastAPI backend. This application allows users to construct node-based pipelines, manage dynamic variable dependencies, and validate the structural integrity (DAG check) of the graph.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### **Frontend (React + React Flow)**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* **Modular Node Architecture**: Built on a highly reusable `BaseNode` abstraction to ensure consistent behavior and styling across all node types.
+* **Dynamic Text Node**:
 
-### `npm test`
+  * **Variable Extraction**: Automatically parses variables (e.g., `{{ prompt }}`) and creates corresponding input handles dynamically.
+  * **Debounced Parsing**: Optimized regex execution prevents UI stutter during rapid typing.
+  * **Auto-Resizing**: Text areas expand seamlessly to fit content.
+* **Polished UI/UX**:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  * **Unified Design System**: Consistent typography, spacing, and shadows using Tailwind CSS.
+  * **Custom Interactive Elements**: Replaced native browser dropdowns with custom React components for a unified visual experience.
+  * **Interactive Results**: Beautiful modal displays pipeline analysis (Node/Edge count, DAG validity).
+* **Performance**:
 
-### `npm run build`
+  * Memoized components (`React.memo`) to minimize re-renders.
+  * Robust state management using `Zustand`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### **Backend (FastAPI)**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* **Pipeline Validation**: Calculates graph statistics and implements Kahn's Algorithm to strictly validate if the pipeline is a Directed Acyclic Graph (DAG).
+* **Resilience**:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  * **Error Handling**: Gracefully handles malformed JSON and data integrity issues.
+  * **Data Validation**: Filters out "ghost edges" referencing non-existent nodes to ensure accurate analysis.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tech Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* **Frontend**: React, React Flow, Zustand, Tailwind CSS, Lucide React
+* **Backend**: Python, FastAPI
+* **Tools**: ESLint, PostCSS, Concurrently
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Getting Started
 
-## Learn More
+### **Prerequisites**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Node.js (v16+)
+* Python (v3.8+)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### **Installation**
 
-### Code Splitting
+#### 1. Backend Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Navigate to the backend folder, create a virtual environment, and install dependencies.
 
-### Analyzing the Bundle Size
+```bash
+cd backend
+python -m venv venv
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Activate virtual environment
+# Windows: venv\Scripts\activate
+# Mac/Linux: source venv/bin/activate
 
-### Making a Progressive Web App
+pip install fastapi uvicorn python-multipart
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### 2. Frontend Setup
 
-### Advanced Configuration
+Navigate to the frontend folder and install dependencies.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+cd frontend
+npm install
+```
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Running the App
 
-### `npm run build` fails to minify
+I use `concurrently` to run both the React frontend and FastAPI backend with a single command.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Ensure your backend virtual environment is active (if you didn't hardcode the path).
+2. Run the development command from the `frontend` directory:
+
+```bash
+# Runs Frontend (localhost:3000) AND Backend (127.0.0.1:8000)
+npm run dev
+```
+
+The application will open automatically at **[http://localhost:3000](http://localhost:3000)**.
+
+---
+
