@@ -10,7 +10,13 @@ import { InputNode } from './nodes/inputNode';
 import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
 import { TextNode } from './nodes/textNode';
-import { FilterNode, TransformNode, DatabaseNode, NoteNode, APINode } from './nodes/exampleNodes';
+import { 
+  FilterNode, 
+  TransformNode, 
+  DatabaseNode, 
+  NoteNode, 
+  APINode 
+} from './nodes/exampleNodes';
 
 import 'reactflow/dist/style.css';
 
@@ -86,7 +92,7 @@ export const PipelineUI = () => {
             addNode(newNode);
           }
         },
-        [reactFlowInstance]
+        [reactFlowInstance, addNode, getNodeID]
     );
 
     const onDragOver = useCallback((event) => {
@@ -95,8 +101,7 @@ export const PipelineUI = () => {
     }, []);
 
     return (
-        <>
-        <div ref={reactFlowWrapper} style={{width: '100wv', height: '70vh'}}>
+        <div ref={reactFlowWrapper} style={{width: '100vw', height: '70vh'}} className="bg-white">
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -110,12 +115,31 @@ export const PipelineUI = () => {
                 proOptions={proOptions}
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
+                connectionLineStyle={{ stroke: '#6366f1', strokeWidth: 2 }} 
+                defaultEdgeOptions={{
+                    type: 'smoothstep', 
+                    markerEnd: { type: 'arrowclosed', color: '#6366f1' },
+                    style: { stroke: '#6366f1', strokeWidth: 2 }
+                }}
             >
-                <Background color="#aaa" gap={gridSize} />
-                <Controls />
-                <MiniMap />
+                <Background 
+                    color="#cbd5e1" 
+                    gap={25} 
+                    size={1} 
+                    variant="dots" 
+                />
+                <Controls className="bg-white border border-stone-200 shadow-md rounded-lg text-stone-600" />
+                <MiniMap 
+                    className="border border-stone-200 shadow-lg rounded-lg"
+                    nodeColor={(node) => {
+                        if (node.type === 'customInput') return '#3b82f6';
+                        if (node.type === 'customOutput') return '#10b981';
+                        if (node.type === 'llm') return '#8b5cf6';
+                        return '#64748b';
+                    }}
+                    maskColor="rgb(241, 245, 249, 0.7)"
+                />
             </ReactFlow>
         </div>
-        </>
     )
 }
