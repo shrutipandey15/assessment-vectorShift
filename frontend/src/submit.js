@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useStore } from './store';
 import { Loader2, CheckCircle2, AlertCircle, X, FileText, Share2, Layers } from 'lucide-react';
 
+const API_ENDPOINT = 'http://127.0.0.1:8000/pipelines/parse';
+
 export const SubmitButton = () => {
     const { nodes, edges } = useStore((state) => ({
         nodes: state.nodes,
@@ -15,7 +17,7 @@ export const SubmitButton = () => {
     const handleSubmit = async () => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://127.0.0.1:8000/pipelines/parse', {
+            const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams({
@@ -23,11 +25,16 @@ export const SubmitButton = () => {
                 }),
             });
 
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.detail || 'Failed to parse pipeline');
+            }
+
             const data = await response.json();
             setResult(data);
         } catch (error) {
             console.error('Error submitting pipeline:', error);
-            alert('Error submitting pipeline. Is the backend running?');
+            alert(`Error: ${error.message}. Is the backend running on ${API_ENDPOINT}?`);
         } finally {
             setIsLoading(false);
         }
