@@ -3,6 +3,8 @@
 
 # VectorShift Assessment - Pipeline Builder
 
+![App Screenshot](./demo_screenshot.png)
+
 A builder application consisting of a React-based drag-and-drop frontend and a FastAPI backend. This application allows users to construct node-based pipelines, manage dynamic variable dependencies, and validate the structural integrity (DAG check) of the graph.
 
 ## Features
