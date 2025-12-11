@@ -101,7 +101,7 @@ export const PipelineUI = () => {
     }, []);
 
     return (
-        <div ref={reactFlowWrapper} style={{width: '100vw', height: '70vh'}} className="bg-white">
+        <div ref={reactFlowWrapper} style={{width: '100%', height: '100%'}} className="bg-transparent">
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -115,29 +115,38 @@ export const PipelineUI = () => {
                 proOptions={proOptions}
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
-                connectionLineStyle={{ stroke: '#6366f1', strokeWidth: 2 }} 
+                connectionLineStyle={{ 
+                  stroke: 'rgba(139, 92, 246, 0.6)', 
+                  strokeWidth: 2,
+                  strokeDasharray: '5, 5'
+                }} 
                 defaultEdgeOptions={{
                     type: 'smoothstep', 
-                    markerEnd: { type: 'arrowclosed', color: '#6366f1' },
-                    style: { stroke: '#6366f1', strokeWidth: 2 }
+                    animated: true,
+                    style: { 
+                      stroke: 'rgba(139, 92, 246, 0.6)', 
+                      strokeWidth: 2,
+                      strokeDasharray: '5, 5'
+                    }
                 }}
             >
                 <Background 
-                    color="#cbd5e1" 
-                    gap={25} 
-                    size={1} 
-                    variant="dots" 
+                    className="opacity-0"
                 />
-                <Controls className="bg-white border border-stone-200 shadow-md rounded-lg text-stone-600" />
+                <Controls 
+                    className="!bg-[#1a0f2e]/90 backdrop-blur-lg border border-purple-500/30 shadow-lg shadow-purple-900/20 rounded-xl [&_button]:!text-white [&_button]:!bg-transparent [&_button]:!border-purple-500/20 [&_button:hover]:!bg-purple-500/20"
+                    style={{ backgroundColor: 'rgba(26, 15, 46, 0.9)' }}
+                />
                 <MiniMap 
-                    className="border border-stone-200 shadow-lg rounded-lg"
+                    className="!bg-[#1a0f2e]/90 backdrop-blur-lg border border-purple-500/30 shadow-lg shadow-purple-900/20 rounded-lg"
                     nodeColor={(node) => {
                         if (node.type === 'customInput') return '#3b82f6';
                         if (node.type === 'customOutput') return '#10b981';
                         if (node.type === 'llm') return '#8b5cf6';
-                        return '#64748b';
+                        return '#8b5cf6';
                     }}
-                    maskColor="rgb(241, 245, 249, 0.7)"
+                    maskColor="rgba(139, 92, 246, 0.1)"
+                    style={{ backgroundColor: 'rgba(26, 15, 46, 0.9)' }}
                 />
             </ReactFlow>
         </div>

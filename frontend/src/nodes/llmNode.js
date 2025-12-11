@@ -36,7 +36,9 @@ export const LLMNode = ({ id, data }) => {
       ]}
     >
       <div>
-        <span>This is a LLM.</span>
+        <p className="text-sm text-white/70">
+          This is a LLM.
+        </p>
       </div>
     </BaseNode>
   );

@@ -18,25 +18,30 @@ export const BaseNode = memo(({ label, children, handles = [], className = '' })
 
   return (
     <div className={`
-      rounded-lg border-2 bg-white shadow-md 
-      transition-all duration-200 hover:shadow-xl hover:ring-1 
-      min-w-[200px] 
-      ${style.borderColor} ${style.shadow} ${className}
+      min-w-[200px] rounded-xl shadow-lg shadow-purple-900/20
+      bg-gradient-to-br from-purple-600 to-purple-700
+      border ${style.borderColor}
+      transition-all duration-300 
+      hover:shadow-xl hover:shadow-purple-500/40 hover:-translate-y-1
+      ${className}
     `}>
       
-      <div className={`flex items-center gap-2 rounded-t-md border-b px-3 py-2 ${style.headerBg} border-inherit`}>
-        <span className={`${style.iconColor}`}>
+      {/* Node Header */}
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10">
+        <span className="text-white/90">
           {style.icon}
         </span>
-        <span className={`text-sm font-bold tracking-wide ${style.headerText} uppercase`}>
+        <span className="text-sm font-bold tracking-wide text-white uppercase">
           {label}
         </span>
       </div>
       
-      <div className="p-3 text-slate-600 font-sans text-sm">
+      {/* Node Body */}
+      <div className="p-4 text-white/80 font-sans text-sm">
         {children}
       </div>
       
+      {/* Handles */}
       {handles.map((handle, index) => (
         <Handle
           key={`${handle.id}-${index}`}
@@ -46,7 +51,7 @@ export const BaseNode = memo(({ label, children, handles = [], className = '' })
           className={`
             !h-3 !w-3 rounded-full border-2 border-white 
             shadow-sm transition-all duration-200 
-            hover:scale-125 hover:ring-2 hover:ring-offset-1 
+            hover:scale-125 hover:shadow-lg hover:shadow-blue-400/50
             ${style.handleColor}
           `}
           style={{

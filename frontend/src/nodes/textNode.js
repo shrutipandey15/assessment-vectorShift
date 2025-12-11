@@ -30,9 +30,14 @@ export const TextNode = ({ id, data }) => {
         type: 'target',
         position: Position.Left,
         id: `${id}-${variable}`,
+        className: 'variable-handle',
         style: { 
-          top: `${HANDLE_BASE_OFFSET + (index + 1) * HANDLE_SPACING}px`, 
-          background: 'blue' 
+          top: `${HANDLE_BASE_OFFSET + (index + 1) * HANDLE_SPACING}px`,
+          background: '#06b6d4',
+          width: '10px',
+          height: '10px',
+          border: '2px solid #ffffff',
+          boxShadow: '0 0 8px rgba(6, 182, 212, 0.6)'
         }
       }));
 
@@ -57,14 +62,15 @@ export const TextNode = ({ id, data }) => {
       label="Text"
       handles={handles}
     >
-      <div className="flex flex-col">
-        <label className="text-xs text-gray-500 mb-1">Text:</label>
+      <div className="flex flex-col gap-2">
+        <label className="text-xs font-medium text-white/70 uppercase tracking-wider">Text:</label>
         <textarea
           ref={textareaRef}
           value={currText}
           onChange={handleTextChange}
-          className="border rounded px-2 py-1 text-sm focus:outline-indigo-500 resize-none overflow-hidden min-h-[40px]"
+          className="w-full px-3 py-2 bg-black/30 border border-white/20 rounded-lg text-sm text-white placeholder-white/40 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/30 transition-all resize-none min-h-[60px]"
           rows={1}
+          placeholder="Enter text... Use {{variable}} for inputs"
         />
       </div>
     </BaseNode>

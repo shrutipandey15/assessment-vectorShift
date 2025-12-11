@@ -18,13 +18,13 @@ export const DraggableNode = ({ type, label }) => {
     };
 
     const getIcon = (nodeType) => {
-        if (nodeType === 'customInput') return <ArrowRightCircle size={20} className="text-blue-500" />;
-        if (nodeType === 'customOutput') return <MessageSquare size={20} className="text-emerald-500" />;
-        if (nodeType === 'llm') return <Cpu size={20} className="text-purple-500" />;
-        if (nodeType === 'text' || nodeType === 'note') return <FileText size={20} className="text-stone-500" />;
-        if (nodeType === 'database') return <Database size={20} className="text-stone-500" />;
-        if (nodeType === 'transform' || nodeType === 'filter') return <Filter size={20} className="text-amber-500" />;
-        return <Globe size={20} className="text-stone-500" />;
+        if (nodeType === 'customInput') return <ArrowRightCircle size={18} className="text-blue-400" />;
+        if (nodeType === 'customOutput') return <MessageSquare size={18} className="text-emerald-400" />;
+        if (nodeType === 'llm') return <Cpu size={18} className="text-purple-400" />;
+        if (nodeType === 'text' || nodeType === 'note') return <FileText size={18} className="text-cyan-400" />;
+        if (nodeType === 'database') return <Database size={18} className="text-amber-400" />;
+        if (nodeType === 'transform' || nodeType === 'filter') return <Filter size={18} className="text-amber-400" />;
+        return <Globe size={18} className="text-slate-400" />;
     };
   
     return (
@@ -36,16 +36,17 @@ export const DraggableNode = ({ type, label }) => {
       >
           <div className="
             flex flex-col items-center justify-center 
-            h-[64px] min-w-[80px] 
+            h-[70px] min-w-[90px] 
             cursor-grab 
-            bg-white rounded-lg border-2 border-stone-200 
-            shadow-sm transition-all duration-200
-            hover:shadow-md hover:border-indigo-400 hover:-translate-y-1
-            gap-1 p-2
+            bg-gradient-to-br from-purple-600 to-purple-700
+            rounded-lg border border-purple-400/30
+            shadow-lg shadow-purple-900/20
+            transition-all duration-200
+            hover:shadow-xl hover:shadow-purple-500/40 hover:-translate-y-1 hover:border-purple-300/50
+            gap-2 p-3
           ">
             {getIcon(type)}
-            
-            <span className="text-xs font-semibold text-stone-600">{label}</span>
+            <span className="text-xs font-semibold text-white">{label}</span>
           </div>
       </div>
     );

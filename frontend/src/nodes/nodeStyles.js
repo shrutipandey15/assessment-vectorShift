@@ -13,78 +13,57 @@ export const getNodeStyle = (label) => {
     
     if (lowerLabel.includes('input')) {
       return {
-        borderColor: 'border-blue-400',
-        headerBg: 'bg-blue-50',
-        headerText: 'text-blue-900',
-        iconColor: 'text-blue-500',
+        borderColor: 'border-l-4 border-l-blue-400 border-t border-r border-b border-purple-400/30',
+        iconColor: 'text-blue-400',
         handleColor: 'bg-blue-500',
-        shadow: 'shadow-blue-100',
         icon: <ArrowRightCircle size={16} /> 
       };
     }
     if (lowerLabel.includes('output')) {
       return {
-        borderColor: 'border-emerald-400',
-        headerBg: 'bg-emerald-50',
-        headerText: 'text-emerald-900',
-        iconColor: 'text-emerald-500',
+        borderColor: 'border-l-4 border-l-emerald-400 border-t border-r border-b border-purple-400/30',
+        iconColor: 'text-emerald-400',
         handleColor: 'bg-emerald-500',
-        shadow: 'shadow-emerald-100',
         icon: <MessageSquare size={16} />
       };
     }
     if (lowerLabel.includes('llm')) {
       return {
-        borderColor: 'border-purple-400',
-        headerBg: 'bg-purple-50',
-        headerText: 'text-purple-900',
-        iconColor: 'text-purple-500',
-        handleColor: 'bg-purple-500',
-        shadow: 'shadow-purple-100',
+        borderColor: 'border-l-4 border-l-purple-400 border-t border-r border-b border-purple-400/30',
+        iconColor: 'text-purple-300',
+        handleColor: 'bg-purple-400',
         icon: <Cpu size={16} />
       };
     }
     if (lowerLabel.includes('transform') || lowerLabel.includes('filter')) {
       return {
-        borderColor: 'border-amber-400',
-        headerBg: 'bg-amber-50',
-        headerText: 'text-amber-900',
-        iconColor: 'text-amber-500',
+        borderColor: 'border-l-4 border-l-amber-400 border-t border-r border-b border-purple-400/30',
+        iconColor: 'text-amber-400',
         handleColor: 'bg-amber-500',
-        shadow: 'shadow-amber-100',
         icon: <Filter size={16} />
       };
     }
     if (lowerLabel.includes('text') || lowerLabel.includes('note')) {
         return {
-          borderColor: 'border-stone-300',
-          headerBg: 'bg-stone-100',
-          headerText: 'text-stone-800',
-          iconColor: 'text-stone-500',
-          handleColor: 'bg-stone-400',
-          shadow: 'shadow-stone-100',
+          borderColor: 'border-l-4 border-l-cyan-400 border-t border-r border-b border-purple-400/30',
+          iconColor: 'text-cyan-400',
+          handleColor: 'bg-cyan-500',
           icon: <FileText size={16} />
         };
     }
     
      if (lowerLabel.includes('database')) {
       return {
-        borderColor: 'border-stone-300',
-        headerBg: 'bg-stone-100',
-        headerText: 'text-stone-800',
-        iconColor: 'text-stone-500',
-        handleColor: 'bg-stone-400',
-        shadow: 'shadow-stone-100',
+        borderColor: 'border-l-4 border-l-amber-400 border-t border-r border-b border-purple-400/30',
+        iconColor: 'text-amber-400',
+        handleColor: 'bg-amber-500',
         icon: <Database size={16} />
       };
     }
     return {
-      borderColor: 'border-stone-300',
-      headerBg: 'bg-stone-100',
-      headerText: 'text-stone-800',
-      iconColor: 'text-stone-500',
-      handleColor: 'bg-stone-400',
-      shadow: 'shadow-stone-100',
+      borderColor: 'border-l-4 border-l-slate-400 border-t border-r border-b border-purple-400/30',
+      iconColor: 'text-slate-300',
+      handleColor: 'bg-slate-400',
       icon: <Globe size={16} />
     };
   };
