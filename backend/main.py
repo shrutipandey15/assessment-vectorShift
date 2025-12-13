@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-import json
+from pydantic import BaseModel
+from typing import List, Dict
 
 app = FastAPI()
 
@@ -12,24 +13,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class Pipeline(BaseModel):
+    nodes: List[Dict] = []
+    edges: List[Dict] = []
+
 @app.get('/')
 def read_root():
     return {'Ping': 'Pong'}
 
 @app.post('/pipelines/parse')
-def parse_pipeline(pipeline: str = Form(...)):
-    try:
-        data = json.loads(pipeline)
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=400, detail="Invalid JSON format")
+def parse_pipeline(pipeline: Pipeline):
     
-    nodes = data.get('nodes', [])
-    edges = data.get('edges', [])
+    num_nodes = len(pipeline.nodes)
+    num_edges = len(pipeline.edges)
     
-    num_nodes = len(nodes)
-    num_edges = len(edges)
-    
-    is_dag = check_if_dag(nodes, edges)
+    is_dag = check_if_dag(pipeline.nodes, pipeline.edges)
     
     return {
         'num_nodes': num_nodes, 

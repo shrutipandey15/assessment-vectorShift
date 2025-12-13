@@ -20,10 +20,8 @@ export const SubmitButton = () => {
         try {
             const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
-                    pipeline: JSON.stringify({ nodes, edges }),
-                }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nodes, edges }),
             });
 
             if (!response.ok) {
